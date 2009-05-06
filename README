@@ -1,0 +1,44 @@
+Sets attributes by the order you pass in then continues as usual.
+
+Usage:
+
+class Boy < ActiveRecord::Base
+	set_attribute_order :mom, :dad, :sister
+	
+	def	dad=(value)
+		puts "SET DAD"
+		@dad = value
+	end
+	
+	def	dog=(value)
+		puts "SET DOG"
+		@dog = value
+	end
+	
+	def	mom=(value)
+		puts "SET MOM"
+		@mom = value
+	end
+	
+	def	sister=(value)
+	  puts "SET SISTER"
+	  self.build_sister(:mom => @mom, :dad => @dad)
+	end
+	
+end
+
+Boy.create(:dad => "Bill", :sister => "Kate", :mom => "Kim")
+=> "SET MOM"
+=> "SET DAD"
+=> "SET SISTER"
+
+
+Boy.create(:dad => "Bill", :mom => "Kim")
+=> "SET MOM"
+=> "SET DAD"
+
+
+Boy.create(:dog => "Ralph", :mom => "Kim", :dad => "Bill")
+=> "SET MOM"
+=> "SET DAD"
+=> "SET DOG"
